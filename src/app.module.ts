@@ -5,6 +5,8 @@ import { UsersModule } from './users/users.module';
 import { LoansModule } from './loans/loans.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { HttpErrorFilter } from './filters.error'; // Ajusta la ruta según la ubicación real de tu filtro
+import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -23,6 +25,12 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: HttpErrorFilter,
+    },
+  ],
 })
 export class AppModule {}
